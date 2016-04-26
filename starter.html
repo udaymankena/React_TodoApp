@@ -1,0 +1,25 @@
+<<!DOCTYPE html>
+<html>
+<head>
+	<title>React starter page</title>
+	<script src="https://fb.me/react-15.0.1.min.js"></script>
+	<script src="https://fb.me/react-dom-15.0.1.min.js"></script>
+	<script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+</head>
+<body>
+<script type="text/jsx">
+	var HelloWorld = React.createClass({
+		render: function() {
+			return(
+				<div> 
+				<h1>Hello World!</h1>
+				</div>
+				);
+		}
+	});
+
+	ReactDOM.render(<HelloWorld />, document.body); //document.body is the mounting area
+
+</script>
+</body>
+</html>
