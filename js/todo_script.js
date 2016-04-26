@@ -4,15 +4,22 @@ var Todo = React.createClass({
 	displayName: 'Todo',
 
 
+	getInitialState: function getInitialState() {
+		return { editing: false };
+	},
+
 	edit: function edit() {
 		alert('editing the todo');
+		this.setState({ editing: true });
 	},
 
 	remove: function remove() {
 		alert('removing the todo');
 	},
-
-	render: function render() {
+	save: function save() {
+		alert('saving the todo');
+	},
+	todoDisplay: function todoDisplay() {
 		return (// how awesome is this? I am creating html in a js func and rendering it in html again
 
 			React.createElement(
@@ -30,6 +37,35 @@ var Todo = React.createClass({
 				)
 			)
 		);
+	},
+
+	todoForm: function todoForm() {
+		// this is an editable form
+		return (// how awesome is this? I am creating html in a js func and rendering it in html again
+
+			React.createElement(
+				'li',
+				{ className: 'todo' },
+				React.createElement(
+					'span',
+					null,
+					React.createElement('input', { type: 'text', placeholder: 'Edit Todo', defaultValue: this.props.children })
+				),
+				React.createElement(
+					'span',
+					{ onClick: this.save },
+					React.createElement('button', { className: 'btn btn-default btn-sm glyphicon glyphicon-saved remove pull-right' })
+				)
+			)
+		);
+	},
+
+	render: function render() {
+		if (this.state.editing) {
+			return this.todoForm();
+		} else {
+			return this.todoDisplay();
+		}
 	}
 });
 
@@ -39,7 +75,7 @@ ReactDOM.render(React.createElement(
 	React.createElement(
 		'h1',
 		null,
-		' This is a todo '
+		' React Todo App '
 	),
 	React.createElement(
 		'div',
