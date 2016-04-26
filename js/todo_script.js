@@ -17,7 +17,9 @@ var Todo = React.createClass({
 		alert('removing the todo');
 	},
 	save: function save() {
-		alert('saving the todo');
+		var editedVal = this.refs.newValue.value;
+		alert('new todo' + editedVal + 'added');
+		this.setState({ editing: false });
 	},
 	todoDisplay: function todoDisplay() {
 		return (// how awesome is this? I am creating html in a js func and rendering it in html again
@@ -49,13 +51,9 @@ var Todo = React.createClass({
 				React.createElement(
 					'span',
 					null,
-					React.createElement('input', { type: 'text', placeholder: 'Edit Todo', defaultValue: this.props.children })
+					React.createElement('input', { type: 'text', ref: 'newValue', placeholder: 'Edit Todo', defaultValue: this.props.children })
 				),
-				React.createElement(
-					'span',
-					{ onClick: this.save },
-					React.createElement('button', { className: 'btn btn-default btn-sm glyphicon glyphicon-saved remove pull-right' })
-				)
+				React.createElement('button', { onClick: this.save, className: 'btn btn-default btn-sm glyphicon glyphicon-saved remove pull-right' })
 			)
 		);
 	},
