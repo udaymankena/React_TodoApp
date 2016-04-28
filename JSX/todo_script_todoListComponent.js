@@ -1,3 +1,5 @@
+
+// seperate the static content from the content which is dynamically rendered
 var Todo = React.createClass({
 
 	getInitialState: function(){
@@ -56,8 +58,18 @@ var Todo = React.createClass({
 	}
 });
 
-ReactDOM.render(
-	<div>
+//create a new component called TodoList
+var TodoList = React.createClass({
+
+	getInitialState: function(){
+		return{	
+			todos: ['todo1', 'todo2', 'todo3']
+		};
+	},
+
+	render: function(){
+		return(
+		<div>
 			<h1> React Todo App </h1>
 			<div className = "form-inline">
 				<div className="form-group">
@@ -66,9 +78,16 @@ ReactDOM.render(
 				</div>
 
 			</div>
-	
-			<Todo> Todo 1</Todo> 
-			<Todo> Todo 2</Todo>
-			<Todo> Todo 3</Todo> 
+		<ul> 
+			{this.state.todos.map(function(todo){
+				return <Todo> {todo}</Todo>
+			})}
+		</ul>
 
-	</div> , document.getElementById('todo'));
+	</div> 
+	);
+	}
+});
+
+ReactDOM.render(<TodoList />
+	, document.getElementById('todo'));

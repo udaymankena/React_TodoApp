@@ -1,5 +1,6 @@
 'use strict';
 
+// seperate the static content from the content which is dynamically rendered
 var Todo = React.createClass({
 	displayName: 'Todo',
 
@@ -67,41 +68,54 @@ var Todo = React.createClass({
 	}
 });
 
-ReactDOM.render(React.createElement(
-	'div',
-	null,
-	React.createElement(
-		'h1',
-		null,
-		' React Todo App '
-	),
-	React.createElement(
-		'div',
-		{ className: 'form-inline' },
-		React.createElement(
+//create a new component called TodoList
+var TodoList = React.createClass({
+	displayName: 'TodoList',
+
+
+	getInitialState: function getInitialState() {
+		return {
+			todos: ['todo1', 'todo2', 'todo3']
+		};
+	},
+
+	render: function render() {
+		return React.createElement(
 			'div',
-			{ className: 'form-group' },
-			React.createElement('input', { className: 'form-control', placeholder: 'Add Todo' }),
+			null,
 			React.createElement(
-				'button',
-				{ className: 'btn btn-default btn-sm' },
-				'+'
+				'h1',
+				null,
+				' React Todo App '
+			),
+			React.createElement(
+				'div',
+				{ className: 'form-inline' },
+				React.createElement(
+					'div',
+					{ className: 'form-group' },
+					React.createElement('input', { className: 'form-control', placeholder: 'Add Todo' }),
+					React.createElement(
+						'button',
+						{ className: 'btn btn-default btn-sm' },
+						'+'
+					)
+				)
+			),
+			React.createElement(
+				'ul',
+				null,
+				this.state.todos.map(function (todo) {
+					return React.createElement(
+						Todo,
+						null,
+						' ',
+						todo
+					);
+				})
 			)
-		)
-	),
-	React.createElement(
-		Todo,
-		null,
-		' Todo 1'
-	),
-	React.createElement(
-		Todo,
-		null,
-		' Todo 2'
-	),
-	React.createElement(
-		Todo,
-		null,
-		' Todo 3'
-	)
-), document.getElementById('todo'));
+		);
+	}
+});
+
+ReactDOM.render(React.createElement(TodoList, null), document.getElementById('todo'));
