@@ -65,6 +65,12 @@ var TodoList = React.createClass({
 		};
 	},
 
+	update: function(newValue, i){
+		var arr = this.state.todos; // current list of todos
+		arr[i] = newValue;
+		this.setState({todo: arr});
+	},
+
 	render: function(){
 		return(
 		<div>
