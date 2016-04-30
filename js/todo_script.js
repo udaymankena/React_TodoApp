@@ -19,7 +19,9 @@ var Todo = React.createClass({
 	},
 	save: function save() {
 		var editedVal = this.refs.newValue.value;
-		alert('new todo' + editedVal + 'added');
+		//alert('new todo ' + editedVal + 'added');
+		console.log(this);
+		this.props.onChange(editedVal, this.props.index);
 		this.setState({ editing: false });
 	},
 	todoDisplay: function todoDisplay() {
@@ -33,11 +35,7 @@ var Todo = React.createClass({
 					{ onClick: this.edit },
 					this.props.children
 				),
-				React.createElement(
-					'span',
-					{ onClick: this.remove },
-					React.createElement('button', { className: 'btn btn-default btn-sm glyphicon glyphicon-trash remove pull-right' })
-				)
+				React.createElement('button', { onClick: this.remove, className: 'btn btn-default btn-sm glyphicon glyphicon-trash remove pull-right' })
 			)
 		);
 	},
@@ -79,6 +77,20 @@ var TodoList = React.createClass({
 		};
 	},
 
+	update: function update(newValue, i) {
+		var arr = this.state.todos; // current list of todos
+		arr[i] = newValue;
+		this.setState({ todos: arr });
+	},
+
+	eachTodo: function eachTodo(todo, i) {
+		return React.createElement(
+			Todo,
+			{ key: i, index: i, onChange: this.update },
+			todo
+		);
+	},
+
 	render: function render() {
 		return React.createElement(
 			'div',
@@ -105,14 +117,7 @@ var TodoList = React.createClass({
 			React.createElement(
 				'ul',
 				null,
-				this.state.todos.map(function (todo) {
-					return React.createElement(
-						Todo,
-						null,
-						' ',
-						todo
-					);
-				})
+				this.state.todos.map(this.eachTodo)
 			)
 		);
 	}

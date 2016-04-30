@@ -16,7 +16,9 @@ var Todo = React.createClass({
 	},
 	save: function(){
 		var editedVal = this.refs.newValue.value;
-		alert('new todo ' + editedVal + 'added');
+		//alert('new todo ' + editedVal + 'added');
+		console.log(this);
+		this.props.onChange(editedVal,this.props.index);
 		this.setState({editing:false});
 	},
 	todoDisplay: function(){
@@ -68,7 +70,13 @@ var TodoList = React.createClass({
 	update: function(newValue, i){
 		var arr = this.state.todos; // current list of todos
 		arr[i] = newValue;
-		this.setState({todo: arr});
+		this.setState({todos: arr});
+	},
+
+	eachTodo: function(todo, i){
+		return <Todo key={i} index={i} onChange={this.update} > 
+					{todo}
+				</Todo>
 	},
 
 	render: function(){
@@ -83,9 +91,7 @@ var TodoList = React.createClass({
 
 			</div>
 		<ul> 
-			{this.state.todos.map(function(todo){
-				return <Todo> {todo}</Todo>
-			})}
+			{this.state.todos.map(this.eachTodo)}
 		</ul>
 
 	</div> 
