@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 // seperate the static content from the content which is dynamically rendered
 var Todo = React.createClass({
-	displayName: 'Todo',
+	displayName: "Todo",
 
 
 	getInitialState: function getInitialState() {
@@ -15,7 +15,7 @@ var Todo = React.createClass({
 	},
 
 	remove: function remove() {
-		alert('removing the todo');
+		this.props.onRemove(this.props.index);
 	},
 	save: function save() {
 		var editedVal = this.refs.newValue.value;
@@ -28,14 +28,14 @@ var Todo = React.createClass({
 		return (// how awesome is this? I am creating html in a js func and rendering it in html again
 
 			React.createElement(
-				'li',
-				{ className: 'todo' },
+				"li",
+				{ className: "todo" },
 				React.createElement(
-					'span',
+					"span",
 					{ onClick: this.edit },
 					this.props.children
 				),
-				React.createElement('button', { onClick: this.remove, className: 'btn btn-default btn-sm glyphicon glyphicon-trash remove pull-right' })
+				React.createElement("button", { onClick: this.remove, className: "btn btn-default btn-sm glyphicon glyphicon-trash remove pull-right" })
 			)
 		);
 	},
@@ -45,14 +45,14 @@ var Todo = React.createClass({
 		return (// how awesome is this? I am creating html in a js func and rendering it in html again
 
 			React.createElement(
-				'li',
-				{ className: 'todo' },
+				"li",
+				{ className: "todo" },
 				React.createElement(
-					'span',
+					"span",
 					null,
-					React.createElement('input', { type: 'text', ref: 'newValue', placeholder: 'Edit Todo', defaultValue: this.props.children })
+					React.createElement("input", { type: "text", ref: "newValue", placeholder: "Edit Todo", defaultValue: this.props.children })
 				),
-				React.createElement('button', { onClick: this.save, className: 'btn btn-default btn-sm glyphicon glyphicon-saved remove pull-right' })
+				React.createElement("button", { onClick: this.save, className: "btn btn-default btn-sm glyphicon glyphicon-saved remove pull-right" })
 			)
 		);
 	},
@@ -68,13 +68,26 @@ var Todo = React.createClass({
 
 //create a new component called TodoList
 var TodoList = React.createClass({
-	displayName: 'TodoList',
+	displayName: "TodoList",
 
 
 	getInitialState: function getInitialState() {
 		return {
 			todos: ['todo1', 'todo2', 'todo3']
 		};
+	},
+
+	add: function add() {
+		var arr = this.state.todos;
+		var newTodo = this.refs.newTodo.value;
+		if (typeof newTodo !== "undefined") arr.push(newTodo);
+		this.setState({ todos: arr });
+	},
+
+	remove: function remove(i) {
+		var arr = this.state.todos;
+		arr.splice(i, 1); // 'i' is the index of the element to be removed
+		this.setState({ todos: arr });
 	},
 
 	update: function update(newValue, i) {
@@ -86,36 +99,37 @@ var TodoList = React.createClass({
 	eachTodo: function eachTodo(todo, i) {
 		return React.createElement(
 			Todo,
-			{ key: i, index: i, onChange: this.update },
+			{ key: i, index: i, onChange: this.update,
+				onRemove: this.remove },
 			todo
 		);
 	},
 
 	render: function render() {
 		return React.createElement(
-			'div',
+			"div",
 			null,
 			React.createElement(
-				'h1',
+				"h1",
 				null,
-				' React Todo App '
+				" React Todo App "
 			),
 			React.createElement(
-				'div',
-				{ className: 'form-inline' },
+				"div",
+				{ className: "form-inline" },
 				React.createElement(
-					'div',
-					{ className: 'form-group' },
-					React.createElement('input', { className: 'form-control', placeholder: 'Add Todo' }),
+					"div",
+					{ className: "form-group" },
+					React.createElement("input", { ref: "newTodo", className: "form-control", placeholder: "Add Todo" }),
 					React.createElement(
-						'button',
-						{ className: 'btn btn-default btn-sm' },
-						'+'
+						"button",
+						{ onClick: this.add, className: "btn btn-default btn-sm" },
+						"+"
 					)
 				)
 			),
 			React.createElement(
-				'ul',
+				"ul",
 				null,
 				this.state.todos.map(this.eachTodo)
 			)

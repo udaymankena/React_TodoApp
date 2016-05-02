@@ -12,7 +12,8 @@ var Todo = React.createClass({
 	},
 
 	remove: function(){
-		alert('removing the todo')
+		this.props.onRemove(this.props.index);
+
 	},
 	save: function(){
 		var editedVal = this.refs.newValue.value;
@@ -67,6 +68,21 @@ var TodoList = React.createClass({
 		};
 	},
 
+	add: function(){
+		var arr = this.state.todos;
+		var newTodo = this.refs.newTodo.value;
+		if(typeof newTodo !== "undefined")
+			arr.push(newTodo);
+		this.setState({todos: arr});
+	},
+
+	remove: function(i){
+		var arr = this.state.todos;
+		arr.splice(i,1); // 'i' is the index of the element to be removed
+		this.setState({todos: arr});
+
+	},
+
 	update: function(newValue, i){
 		var arr = this.state.todos; // current list of todos
 		arr[i] = newValue;
@@ -74,7 +90,8 @@ var TodoList = React.createClass({
 	},
 
 	eachTodo: function(todo, i){
-		return <Todo key={i} index={i} onChange={this.update} > 
+		return <Todo key={i} index={i} onChange={this.update}
+						onRemove={this.remove} > 
 					{todo}
 				</Todo>
 	},
@@ -85,8 +102,8 @@ var TodoList = React.createClass({
 			<h1> React Todo App </h1>
 			<div className = "form-inline">
 				<div className="form-group">
-					<input className="form-control" placeholder="Add Todo" />
-					<button className="btn btn-default btn-sm">+</button>
+					<input ref="newTodo" className="form-control" placeholder="Add Todo" />
+					<button onClick={this.add} className="btn btn-default btn-sm">+</button>
 				</div>
 
 			</div>
