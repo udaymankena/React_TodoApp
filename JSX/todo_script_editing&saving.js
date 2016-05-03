@@ -64,7 +64,7 @@ var TodoList = React.createClass({
 
 	getInitialState: function(){
 		return{	
-			todos: ['todo1', 'todo2', 'todo3'],
+			todos: ['Todo1', 'Todo2', 'Todo3'],
 			text: "",
 			placeholder: "Add Todo",
 			input_style: "form-control"
